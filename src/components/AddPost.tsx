@@ -2,7 +2,7 @@ import Image from "next/image"
 
 const AddPost = () => {
   return (
-    <div className="p-4 bg-white rounded-lg flex gap-4 justify-between text-sm">
+    <div className="p-4 bg-white shadow-md rounded-lg flex gap-4 justify-between text-sm">
       {/* Avaterr */}
       <div className="">
         <Image src="https://media.istockphoto.com/id/1278518477/photo/the-camel-caravan-is-in-front-of-the-egyptian-pyramids.jpg?s=612x612&w=is&k=20&c=m1dVzbl9PLy0n7lANdnNUwBSPlnwQIWlbzAY_AIFtm0=" className="w-12 h-12 object-cover rounded-full" width={48} height={48} alt=""/>
@@ -26,12 +26,12 @@ const AddPost = () => {
             Video
           </div>
           <div className="flex items-center gap-2 cursor-pointer">
-            <Image src="/events.png" alt="" width={20} height={20}/>
-            Events
-          </div>
-          <div className="flex items-center gap-2 cursor-pointer">
             <Image src="/poll.png" alt="" width={20} height={20}/>
             Poll
+          </div>
+          <div className="flex items-center gap-2 cursor-pointer">
+            <Image src="/events.png" alt="" width={20} height={20}/>
+            Events
           </div>
         </div>
       </div>
