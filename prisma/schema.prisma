@@ -13,7 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String      @id
   email     String   @unique
   userrname String   @unique
   name      String?
@@ -41,10 +41,11 @@ model User {
 model Post{
   id Int @id @default(autoincrement())
   desc String
+  img String?
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
   user User @relation(fields: [userId],references: [id],onDelete: Cascade)
-  userId Int
+  userId String
   likes Like[]
   comments Comment[]
 }
@@ -55,7 +56,7 @@ model Comment{
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
   user User @relation(fields: [userId],references: [id],onDelete: Cascade)
-  userId Int
+  userId String
   post Post @relation(fields: [postId],references: [id],onDelete: Cascade)
   postId Int
   likes Like[]
@@ -66,7 +67,7 @@ model Like{
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
   user User @relation(fields: [userId],references: [id],onDelete: Cascade)
-  userId Int
+  userId String
   post Post? @relation(fields: [postId],references: [id],onDelete: Cascade)
   postId Int?
   comment Comment? @relation(fields: [commentId],references: [id],onDelete: Cascade)
@@ -77,18 +78,18 @@ model Follower{
   createAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   follower User @relation("UserFollowers",fields: [followerId],references: [id],onDelete: Cascade)
-  followerId Int
+  followerId String
   following User @relation("UserFollowings",fields: [followingId],references: [id],onDelete: Cascade)
-  followingId Int
+  followingId String
 }
 model FollowerRequest{
   id Int @id @default(autoincrement())
   createAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   send User @relation("SendFollowerRequest",fields: [sendId],references: [id],onDelete: Cascade)
-  sendId Int
+  sendId String
   receiver User @relation("ReceiverFollowerRequest",fields: [receiverId],references: [id],onDelete: Cascade)
-  receiverId Int
+  receiverId String
 
   @@unique([sendId,receiverId])
 }
@@ -97,9 +98,9 @@ model Block{
   createAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   send User @relation("SendBlock",fields: [sendId],references: [id],onDelete: Cascade)
-  sendId Int
+  sendId String
   receiver User @relation("ReceiverBlock",fields: [receiverId],references: [id],onDelete: Cascade)
-  receiverId Int
+  receiverId String
 
   @@unique([sendId,receiverId])
 }
@@ -108,7 +109,7 @@ model Story{
   createAt DateTime @default(now())
   expireAt DateTime 
   user User @relation(fields: [userId],references: [id],onDelete: Cascade)
-  userId Int @unique
+  userId String @unique
 
 
 }
