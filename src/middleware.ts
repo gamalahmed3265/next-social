@@ -1,7 +1,7 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 
-const isProductPage=createRouteMatcher(["settings(.*)"])
+const isProductPage=createRouteMatcher(["settings(.*)","/"])
 
 export default clerkMiddleware((auth,req)=>{
     if(isProductPage(req)) auth().protect();

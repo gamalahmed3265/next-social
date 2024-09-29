@@ -12,104 +12,107 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
 model User {
-  id        String      @id
-  email     String   @unique
-  userrname String   @unique
-  name      String?
-  surname      String?
-  avater      String?
-  cover      String?
-  descripation      String?
-  city      String?
-  school      String?
-  work      String?
-  website      String?
-  createdAt DateTime @default(now())
-  posts Post[]
-  Likes Like[]
-  comments Comment[]
-  followers Follower[] @relation("UserFollowers")
-  followings Follower[] @relation("UserFollowings")
-  sends FollowerRequest[] @relation("SendFollowerRequest")
-  receivers FollowerRequest[] @relation("ReceiverFollowerRequest")
-  sendBlock Block[] @relation("SendBlock")
-  receiverBlocks Block[] @relation("ReceiverBlock")
-  stories Story[]
+  id             String            @id
+  username       String            @unique
+  name           String?
+  surname        String?
+  avater         String?
+  cover          String?
+  descripation   String?
+  city           String?
+  school         String?
+  work           String?
+  website        String?
+  createdAt      DateTime          @default(now())
+  posts          Post[]
+  Likes          Like[]
+  comments       Comment[]
+  followers      Follower[]        @relation("UserFollowers")
+  followings     Follower[]        @relation("UserFollowings")
+  sends          FollowerRequest[] @relation("SendFollowerRequest")
+  receivers      FollowerRequest[] @relation("ReceiverFollowerRequest")
+  sendBlock      Block[]           @relation("SendBlock")
+  receiverBlocks Block[]           @relation("ReceiverBlock")
+  stories        Story[]
 }
 
-model Post{
-  id Int @id @default(autoincrement())
-  desc String
-  img String?
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
-  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
-  userId String
-  likes Like[]
+model Post {
+  id       Int       @id @default(autoincrement())
+  desc     String
+  img      String?
+  createAt DateTime  @default(now())
+  updateAt DateTime  @updatedAt
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+  likes    Like[]
   comments Comment[]
 }
 
-model Comment{
-  id Int @id @default(autoincrement())
-  desc String
+model Comment {
+  id       Int      @id @default(autoincrement())
+  desc     String
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
-  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
-  userId String
-  post Post @relation(fields: [postId],references: [id],onDelete: Cascade)
-  postId Int
-  likes Like[]
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+  post     Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId   Int
+  likes    Like[]
 }
-model Like{
-  id Int @id @default(autoincrement())
-  desc String
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
-  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
-  userId String
-  post Post? @relation(fields: [postId],references: [id],onDelete: Cascade)
-  postId Int?
-  comment Comment? @relation(fields: [commentId],references: [id],onDelete: Cascade)
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  desc      String
+  createAt  DateTime @default(now())
+  updateAt  DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    Int?
+  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId Int?
 }
-model Follower{
-  id Int @id @default(autoincrement())
-  createAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  follower User @relation("UserFollowers",fields: [followerId],references: [id],onDelete: Cascade)
-  followerId String
-  following User @relation("UserFollowings",fields: [followingId],references: [id],onDelete: Cascade)
+
+model Follower {
+  id          Int      @id @default(autoincrement())
+  createAt    DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  follower    User     @relation("UserFollowers", fields: [followerId], references: [id], onDelete: Cascade)
+  followerId  String
+  following   User     @relation("UserFollowings", fields: [followingId], references: [id], onDelete: Cascade)
   followingId String
 }
-model FollowerRequest{
-  id Int @id @default(autoincrement())
-  createAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  send User @relation("SendFollowerRequest",fields: [sendId],references: [id],onDelete: Cascade)
-  sendId String
-  receiver User @relation("ReceiverFollowerRequest",fields: [receiverId],references: [id],onDelete: Cascade)
+
+model FollowerRequest {
+  id         Int      @id @default(autoincrement())
+  createAt   DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  send       User     @relation("SendFollowerRequest", fields: [sendId], references: [id], onDelete: Cascade)
+  sendId     String
+  receiver   User     @relation("ReceiverFollowerRequest", fields: [receiverId], references: [id], onDelete: Cascade)
   receiverId String
 
-  @@unique([sendId,receiverId])
+  @@unique([sendId, receiverId])
 }
-model Block{
-  id Int @id @default(autoincrement())
-  createAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  send User @relation("SendBlock",fields: [sendId],references: [id],onDelete: Cascade)
-  sendId String
-  receiver User @relation("ReceiverBlock",fields: [receiverId],references: [id],onDelete: Cascade)
+
+model Block {
+  id         Int      @id @default(autoincrement())
+  createAt   DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  send       User     @relation("SendBlock", fields: [sendId], references: [id], onDelete: Cascade)
+  sendId     String
+  receiver   User     @relation("ReceiverBlock", fields: [receiverId], references: [id], onDelete: Cascade)
   receiverId String
 
-  @@unique([sendId,receiverId])
+  @@unique([sendId, receiverId])
 }
-model Story{
-  id Int @id @default(autoincrement())
+
+model Story {
+  id       Int      @id @default(autoincrement())
   createAt DateTime @default(now())
-  expireAt DateTime 
-  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
-  userId String @unique
-
-
+  expireAt DateTime
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String   @unique
 }
