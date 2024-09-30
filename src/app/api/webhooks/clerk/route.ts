@@ -59,7 +59,7 @@ export async function POST(req: Request) {
           id:evt.data.id,
           username:JSON.parse(body).data.username,
           avater:JSON.parse(body).data.image_url||"/noAvatar.png",
-          cover:"/noCover.png"
+          cover:"/noCover.jpg"
         },
       })
       return new Response('User had been Created', { status: 200 })

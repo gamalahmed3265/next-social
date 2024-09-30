@@ -1,7 +1,7 @@
 import Image from "next/image"
 import ProfileCard from "./ProfileCard"
 import Link from "next/link"
-import Ad from "./Ad"
+import Ad from "../Ad"
 
 const LeftMenu = ({ type }: { type: "home" | "profile" }) => {
   return (
